@@ -1,0 +1,26 @@
+{
+    "name": "jahweh/uuid",
+    "description": "Library to create UUIDs",
+    "type": "library",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adrian Liechti",
+            "email": "info@jahweh.ch"
+        }
+    ],
+    "config": {
+        "platform": {
+            "php": "7.1.0"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Jahweh\\Uuid\\": "src"
+        }
+    },
+    "require": {
+        "php": "^7.1"
+    }
+}
