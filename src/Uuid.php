@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Jahweh\Uuid;
 
-class Uuid
+abstract class Uuid
 {
     /** @var string */
     private $binary;
@@ -16,48 +16,39 @@ class Uuid
         $this->binary = $binary;
     }
 
-    public function getBinary(): string
+    abstract protected static function generateBinary(): string;
+
+    final public function getBinary(): string
     {
         return $this->binary;
     }
 
-    public function getVersion(): int
+    final public function getVersion(): int
     {
         return ord($this->binary[6]) >> 4;
     }
 
-    public function __toString(): string
+    final public function __toString(): string
     {
         return self::binaryToString($this->binary);
     }
 
-    public static function fromString($string)
+    final public static function generate(): self
     {
-        return new self(self::stringToBinary($string));
+        return new static(static::generateBinary());
     }
 
-    public static function uuid4(): self
+    final public static function fromString($string): self
     {
-        return new self(self::generateBinaryUuid4());
+        return new static(self::stringToBinary($string));
     }
 
-    /**
-     * @see https://stackoverflow.com/a/15875555
-     */
-    private static function generateBinaryUuid4(): string
-    {
-        $data = random_bytes(16);
-        $data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 4
-        $data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set variant to RFC4122
-        return $data;
-    }
-
-    private static function binaryToString($binary): string
+    final private static function binaryToString($binary): string
     {
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($binary), 4));
     }
 
-    private static function stringToBinary($string): string
+    final private static function stringToBinary($string): string
     {
         return pack('H*', str_replace('-', '', $string));
     }
