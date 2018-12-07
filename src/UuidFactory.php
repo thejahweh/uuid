@@ -16,14 +16,14 @@ class UuidFactory
         $this->classMap = $classMap;
     }
 
-    public function fromBinary(string $binary): Uuid
+    public function fromBinary(string $binary): AbstractUuid
     {
         $version = self::getVersion($binary);
         $class = $this->getClass($version);
         return new $class($binary);
     }
 
-    public function fromString(string $string): Uuid
+    public function fromString(string $string): AbstractUuid
     {
         return $this->fromBinary(self::stringToBinary($string));
     }

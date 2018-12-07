@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Jahweh\Uuid;
 
-class Uuid4 extends Uuid
+class Uuid4 extends AbstractUuid
 {
     /**
      * @see https://stackoverflow.com/a/15875555

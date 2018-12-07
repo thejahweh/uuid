@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Jahweh\Uuid;
 
-abstract class Uuid
+abstract class AbstractUuid
 {
     /** @var string */
     private $binary;
