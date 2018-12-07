@@ -16,8 +16,6 @@ abstract class AbstractUuid
         $this->binary = $binary;
     }
 
-    abstract protected static function generateBinary(): string;
-
     final public function getBinary(): string
     {
         return $this->binary;
@@ -31,11 +29,6 @@ abstract class AbstractUuid
     final public function __toString(): string
     {
         return self::binaryToString($this->binary);
-    }
-
-    final public static function generate(): self
-    {
-        return new static(static::generateBinary());
     }
 
     final private static function binaryToString($binary): string

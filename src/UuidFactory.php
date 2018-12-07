@@ -6,6 +6,7 @@ namespace Jahweh\Uuid;
 class UuidFactory
 {
     const CLASS_MAP = [
+        1 => Uuid1::class,
         4 => Uuid4::class,
     ];
     /** @var string[] */
