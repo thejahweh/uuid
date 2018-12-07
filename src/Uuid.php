@@ -38,18 +38,8 @@ abstract class Uuid
         return new static(static::generateBinary());
     }
 
-    final public static function fromString($string): self
-    {
-        return new static(self::stringToBinary($string));
-    }
-
     final private static function binaryToString($binary): string
     {
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($binary), 4));
-    }
-
-    final private static function stringToBinary($string): string
-    {
-        return pack('H*', str_replace('-', '', $string));
     }
 }
