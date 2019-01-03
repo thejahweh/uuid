@@ -19,6 +19,7 @@ class UuidFactory
 
     public function fromBinary(string $binary): AbstractUuid
     {
+        AbstractUuid::checkBinaryValidity($binary);
         $version = self::getVersion($binary);
         $class = $this->getClass($version);
         return new $class($binary);

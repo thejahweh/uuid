@@ -10,9 +10,7 @@ abstract class AbstractUuid
 
     public function __construct(string $binary)
     {
-        if (strlen($binary) !== 16) {
-            throw new \Exception('Binary UUID must have 128 bits.');
-        }
+        static::checkBinaryValidity($binary);
         $this->binary = $binary;
     }
 
@@ -34,5 +32,12 @@ abstract class AbstractUuid
     final private static function binaryToString($binary): string
     {
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($binary), 4));
+    }
+
+    public static function checkBinaryValidity(string $binary)
+    {
+        if (strlen($binary) !== 16) {
+            throw new \Exception('Binary UUID must have 128 bits.');
+        }
     }
 }
