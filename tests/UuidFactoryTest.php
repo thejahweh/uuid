@@ -14,9 +14,8 @@ final class UuidFactoryTest extends TestCase
         $factory = new UuidFactory(function () {
             return $this->createPartialMock(AbstractUuid::class, []);
         });
-        $data = str_repeat(chr(0), 16);
-        $uuid = $factory->fromBinary($data);
-        $this->assertEquals('00000000-0000-0000-0000-000000000000', (string)$uuid);
+        $uuid = $factory->fromBinary(hex2bin('5735459897d24ed8927b3bc9e24600b3'));
+        $this->assertEquals('57354598-97d2-4ed8-927b-3bc9e24600b3', (string)$uuid);
     }
 
     public function testFromString(): void
@@ -24,8 +23,7 @@ final class UuidFactoryTest extends TestCase
         $factory = new UuidFactory(function () {
             return $this->createPartialMock(AbstractUuid::class, []);
         });
-        $data = str_repeat(chr(0), 16);
-        $uuid = $factory->fromString('00000000-0000-0000-0000-000000000000');
-        $this->assertEquals($data, (string)$uuid->getBinary());
+        $uuid = $factory->fromString('57354598-97d2-4ed8-927b-3bc9e24600b3');
+        $this->assertEquals(hex2bin('5735459897d24ed8927b3bc9e24600b3'), (string)$uuid->getBinary());
     }
 }
