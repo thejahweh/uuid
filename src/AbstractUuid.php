@@ -38,7 +38,7 @@ abstract class AbstractUuid
         return self::binaryToString($this->binary);
     }
 
-    public static function checkBinaryValidity(string $binary)
+    public static function checkBinaryValidity(string $binary): void
     {
         if (strlen($binary) !== 16) {
             throw new \Exception('Binary UUID must have 128 bits.');

@@ -28,6 +28,7 @@ class UuidFactory
 
     public function fromString(string $string): AbstractUuid
     {
+        static::checkStringValidity($string);
         return $this->fromBinary(self::stringToBinary($string));
     }
 
@@ -37,11 +38,18 @@ class UuidFactory
         if ($class) {
             return $class;
         }
-        throw new \Exception("Uuid class for version '$version' not found");
+        throw new \Exception("Uuid class for version '$version' not found.");
     }
 
     private static function stringToBinary(string $string): string
     {
         return pack('H*', str_replace('-', '', $string));
+    }
+
+    public static function checkStringValidity(string $string): void
+    {
+        if (preg_match('/^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i', $string) !== 1) {
+            throw new \Exception('UUID string is not valid.');
+        }
     }
 }

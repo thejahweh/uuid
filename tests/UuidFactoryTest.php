@@ -31,4 +31,25 @@ final class UuidFactoryTest extends TestCase
         $this->expectException(\Exception::class);
         $factory->fromString('57354598-97d2-fed8-927b-3bc9e24600b3');
     }
+
+    public function testFromStringExceptionTooLong(): void
+    {
+        $factory = new UuidFactory();
+        $this->expectException(\Exception::class);
+        $factory->fromString('57354598-97d2-4ed8-927b-3bc9e24600b33');
+    }
+
+    public function testFromStringExceptionTooShort(): void
+    {
+        $factory = new UuidFactory();
+        $this->expectException(\Exception::class);
+        $factory->fromString('57354598-97d2-4ed8-927b-3bc9e24600b');
+    }
+
+    public function testFromStringExceptionInvalidChar(): void
+    {
+        $factory = new UuidFactory();
+        $this->expectException(\Exception::class);
+        $factory->fromString('57354598-97d2-4ed8-927b-3bc9e24600bZ');
+    }
 }
