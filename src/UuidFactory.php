@@ -5,23 +5,24 @@ namespace Jahweh\Uuid;
 
 class UuidFactory
 {
+    /** @var string[] */
     const CLASS_MAP = [
         1 => Uuid1::class,
         4 => Uuid4::class,
     ];
-    /** @var string[] */
-    private $classMap;
+    /** @var callable */
+    private $classMapper;
 
-    public function __construct($classMap = self::CLASS_MAP)
+    public function __construct(callable $classMapper = null)
     {
-        $this->classMap = $classMap;
+        $this->classMapper = $classMapper ?? [static::class, 'getClass'];
     }
 
     public function fromBinary(string $binary): AbstractUuid
     {
         AbstractUuid::checkBinaryValidity($binary);
         $version = self::getVersion($binary);
-        $class = $this->getClass($version);
+        $class = ($this->classMapper)($version);
         return new $class($binary);
     }
 
@@ -30,9 +31,9 @@ class UuidFactory
         return $this->fromBinary(self::stringToBinary($string));
     }
 
-    private function getClass(int $version): string
+    private static function getClass(int $version): string
     {
-        $class = $this->classMap[$version] ?? null;
+        $class = static::CLASS_MAP[$version] ?? null;
         if ($class) {
             return $class;
         }
