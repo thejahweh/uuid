@@ -13,7 +13,15 @@ abstract class AbstractUuid
     {
         static::checkBinaryValidity($binary);
         $this->binary = $binary;
+        // Check version validity
+        if ($this->getVersion() !== $this->getVersionConstant()) {
+            throw new \Exception(
+                "Version '{$this->getVersion()}' does not match expected version '{$this->getVersionConstant()}'."
+            );
+        }
     }
+
+    abstract protected function getVersionConstant(): int;
 
     final public function getBinary(): string
     {

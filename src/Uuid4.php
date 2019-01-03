@@ -5,6 +5,11 @@ namespace Jahweh\Uuid;
 
 class Uuid4 extends AbstractUuid
 {
+    protected function getVersionConstant(): int
+    {
+        return 4;
+    }
+
     /**
      * @see https://stackoverflow.com/a/15875555
      */

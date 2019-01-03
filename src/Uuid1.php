@@ -12,6 +12,11 @@ class Uuid1 extends AbstractUuid
      */
     const UUID_UNIX_EPOCH_100NS = 0x01b21dd213814000;
 
+    protected function getVersionConstant(): int
+    {
+        return 1;
+    }
+
     /**
      * @see https://stackoverflow.com/a/3795750
      * @see https://github.com/webpatser/laravel-uuid/blob/master/src/Webpatser/Uuid/Uuid.php
