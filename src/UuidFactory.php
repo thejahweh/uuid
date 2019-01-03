@@ -21,7 +21,7 @@ class UuidFactory
     public function fromBinary(string $binary): AbstractUuid
     {
         AbstractUuid::checkBinaryValidity($binary);
-        $version = self::getVersion($binary);
+        $version = AbstractUuid::getBinaryVersion($binary);
         $class = ($this->classMapper)($version);
         return new $class($binary);
     }
@@ -43,10 +43,5 @@ class UuidFactory
     private static function stringToBinary(string $string): string
     {
         return pack('H*', str_replace('-', '', $string));
-    }
-
-    private static function getVersion(string $binary): int
-    {
-        return ord($binary[6]) >> 4;
     }
 }

@@ -21,7 +21,7 @@ abstract class AbstractUuid
 
     final public function getVersion(): int
     {
-        return ord($this->binary[6]) >> 4;
+        return static::getBinaryVersion($this->binary);
     }
 
     final public function __toString(): string
@@ -29,15 +29,20 @@ abstract class AbstractUuid
         return self::binaryToString($this->binary);
     }
 
-    final private static function binaryToString($binary): string
-    {
-        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($binary), 4));
-    }
-
     public static function checkBinaryValidity(string $binary)
     {
         if (strlen($binary) !== 16) {
             throw new \Exception('Binary UUID must have 128 bits.');
         }
+    }
+
+    public static function getBinaryVersion(string $binary): int
+    {
+        return ord($binary[6]) >> 4;
+    }
+
+    private static function binaryToString($binary): string
+    {
+        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($binary), 4));
     }
 }
