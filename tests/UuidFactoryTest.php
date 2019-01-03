@@ -18,4 +18,14 @@ final class UuidFactoryTest extends TestCase
         $uuid = $factory->fromBinary($data);
         $this->assertEquals('00000000-0000-0000-0000-000000000000', (string)$uuid);
     }
+
+    public function testFromString(): void
+    {
+        $factory = new UuidFactory(function () {
+            return $this->createPartialMock(AbstractUuid::class, []);
+        });
+        $data = str_repeat(chr(0), 16);
+        $uuid = $factory->fromString('00000000-0000-0000-0000-000000000000');
+        $this->assertEquals($data, (string)$uuid->getBinary());
+    }
 }
