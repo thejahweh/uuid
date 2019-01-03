@@ -10,19 +10,19 @@ class UuidFactory
         1 => Uuid1::class,
         4 => Uuid4::class,
     ];
-    /** @var callable */
-    private $classMapper;
+    /** @var string[] */
+    private $classMap;
 
-    public function __construct(callable $classMapper = null)
+    public function __construct($classMap = self::CLASS_MAP)
     {
-        $this->classMapper = $classMapper ?? [static::class, 'getClass'];
+        $this->classMap = $classMap;
     }
 
     public function fromBinary(string $binary): AbstractUuid
     {
         AbstractUuid::checkBinaryValidity($binary);
         $version = AbstractUuid::getBinaryVersion($binary);
-        $class = ($this->classMapper)($version);
+        $class = $this->getClass($version);
         return new $class($binary);
     }
 
@@ -31,9 +31,9 @@ class UuidFactory
         return $this->fromBinary(self::stringToBinary($string));
     }
 
-    private static function getClass(int $version): string
+    private function getClass(int $version): string
     {
-        $class = static::CLASS_MAP[$version] ?? null;
+        $class = $this->classMap[$version] ?? null;
         if ($class) {
             return $class;
         }
