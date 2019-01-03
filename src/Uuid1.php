@@ -36,8 +36,8 @@ class Uuid1 extends AbstractUuid
             'clock_seq_low' => random_bytes(1),
             'node' => $node,
         ]);
-        $data[6] = chr(ord($data[6]) & 0x0f | 0x10); // set version to 1
-        $data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set variant to RFC4122
+        static::setBinaryVersion($data, 1);
+        static::setBinaryVariant($data);
         return $data;
     }
 

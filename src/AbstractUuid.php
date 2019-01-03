@@ -5,6 +5,7 @@ namespace Jahweh\Uuid;
 
 abstract class AbstractUuid
 {
+    const VARIANT_RFC4122 = 0x80;
     /** @var string */
     private $binary;
 
@@ -39,6 +40,16 @@ abstract class AbstractUuid
     public static function getBinaryVersion(string $binary): int
     {
         return ord($binary[6]) >> 4;
+    }
+
+    protected static function setBinaryVersion(string &$data, int $version): void
+    {
+        $data[6] = chr(ord($data[6]) & 0x0f | 0x10 * $version);
+    }
+
+    protected static function setBinaryVariant(string &$data, int $variant = self::VARIANT_RFC4122): void
+    {
+        $data[8] = chr(ord($data[8]) & 0x3f | $variant);
     }
 
     private static function binaryToString($binary): string
