@@ -26,4 +26,11 @@ final class UuidFactoryTest extends TestCase
         $uuid = $factory->fromString('57354598-97d2-4ed8-927b-3bc9e24600b3');
         $this->assertEquals(hex2bin('5735459897d24ed8927b3bc9e24600b3'), (string)$uuid->getBinary());
     }
+
+    public function testFromStringExceptionClassForVersionNotFound(): void
+    {
+        $factory = new UuidFactory();
+        $this->expectException(\Exception::class);
+        $factory->fromString('57354598-97d2-fed8-927b-3bc9e24600b3');
+    }
 }
